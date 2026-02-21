@@ -12,6 +12,31 @@ st.set_page_config(page_title="LankaGrid-Forecaster", layout="wide")
 MODEL_PATH = 'models/trained_model.pkl'
 SCALER_PATH = 'models/scaler.pkl'
 
+WEEKDAY_TO_NUM = {
+    "Monday": 0,
+    "Tuesday": 1,
+    "Wednesday": 2,
+    "Thursday": 3,
+    "Friday": 4,
+    "Saturday": 5,
+    "Sunday": 6,
+}
+
+MONTH_TO_NUM = {
+    "January": 1,
+    "February": 2,
+    "March": 3,
+    "April": 4,
+    "May": 5,
+    "June": 6,
+    "July": 7,
+    "August": 8,
+    "September": 9,
+    "October": 10,
+    "November": 11,
+    "December": 12,
+}
+
 @st.cache_resource
 def load_assets():
     model = joblib.load(MODEL_PATH)
@@ -36,9 +61,9 @@ with col1:
 
 with col2:
     st.header("🕒 Temporal & Economic")
-    hour = st.selectbox("Hour of Day", list(range(24)))
-    day = st.selectbox("Day of Week (0=Mon, 6=Sun)", list(range(7)))
-    month = st.selectbox("Month", list(range(1, 13)))
+    hour = st.selectbox("Hour of Day", list(range(24)), index=6)
+    day_name = st.selectbox("Day of Week", list(WEEKDAY_TO_NUM.keys()))
+    month_name = st.selectbox("Month", list(MONTH_TO_NUM.keys()))
     price = st.number_input("Electricity Price (LKR/kWh)", 5.0, 100.0, 25.0)
     is_public_event = st.checkbox("Public Event/Holiday?")
     season = st.radio("Season", ["Summer", "Fall", "Winter"])
@@ -52,6 +77,8 @@ if st.button("🔮 Predict Load Demand"):
         # Sequence: Temp, Hum, Wind, Rain, Solar, GDP(mean), PerCapita(mean), Price, Day, Hour, Month, Event, Fall, Summer, Winter, Weekend
         gdp_mean = 1000.0  # Constant or mean from training
         energy_mean = 500.0
+        day = WEEKDAY_TO_NUM[day_name]
+        month = MONTH_TO_NUM[month_name]
         is_weekend = 1 if day >= 5 else 0
         
         s_fall = 1 if season == "Fall" else 0
