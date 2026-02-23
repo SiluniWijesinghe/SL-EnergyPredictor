@@ -37,16 +37,11 @@ The deployed app allows for **Real-Time Scenario Analysis**.
 ### **Simulated Scenarios:**
 * **Heatwave Impact:** Slide the Temperature up to see demand spikes.
 * **Rainfall Cooling:** Increase Rainfall to see the corresponding drop in grid demand (the "cooling effect").
-* **Temporal Stability:** Observe the high baseline on Sundays (Day 0).
+* **Temporal Stability:** Observe the high baseline on Sundays (Day 6).
 
 
 
 ---
 
-## 📂 Repository Structure
-```bash
-├── data/               # Datasets (Preprocessed)
-├── models/             # Saved .joblib model and scaler
-├── app.py              # Streamlit Dashboard implementation
-├── preprocess_logic.py # Python script for data cleaning & engineering
-└── requirements.txt    # List of dependencies
+
+
